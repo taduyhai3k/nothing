@@ -70,7 +70,7 @@ class MiniImagenetDataProvider(DataProvider):
     @property
     def save_path(self):
         if self._save_path is None:
-            self._save_path = '/dataset/imagenet'
+            self._save_path = '/kaggle/input/miniimagenet'
         return self._save_path
 
     @property
