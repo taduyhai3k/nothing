@@ -34,7 +34,7 @@ class LatencyEstimator(object):
         fname = download_url(url, overwrite=True, dir = dir)
 
         with open(fname, 'r') as fp:
-            self.lut = yaml.load(fp)
+            self.lut = yaml.load(fp, Loader=yaml.FullLoader)
 
     @staticmethod
     def repr_shape(shape):
