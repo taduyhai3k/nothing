@@ -11,7 +11,7 @@ except ImportError:
     from urllib.request import urlretrieve
 
 
-def download_url(url, model_dir='~/.torch/proxyless_nas', overwrite=False):
+def download_url(url, model_dir='~/.torch/proxyless_nas', overwrite=False, dir = None):
     target_dir = url.split('//')[-1]
     target_dir = os.path.dirname(target_dir)
     model_dir = os.path.expanduser(model_dir)
@@ -19,7 +19,10 @@ def download_url(url, model_dir='~/.torch/proxyless_nas', overwrite=False):
     if not os.path.exists(model_dir):
         os.makedirs(model_dir)
     filename = url.split('/')[-1]
-    cached_file = os.path.join(model_dir, filename)
+    if dir is None: 
+        cached_file = os.path.join(model_dir, filename)
+    else:
+        cached_file = os.path.join(dir, filename)    
     if not os.path.exists(cached_file) or overwrite:
         sys.stderr.write('Downloading: "{}" to {}\n'.format(url, cached_file))
         urlretrieve(url, cached_file)
@@ -27,8 +30,8 @@ def download_url(url, model_dir='~/.torch/proxyless_nas', overwrite=False):
 
 
 class LatencyEstimator(object):
-    def __init__(self, url='https://raw.githubusercontent.com/han-cai/files/master/proxylessnas/mobile_trim.yaml'):
-        fname = download_url(url, overwrite=True)
+    def __init__(self, url='https://raw.githubusercontent.com/han-cai/files/master/proxylessnas/mobile_trim.yaml', dir = "/kaggle/working/"):
+        fname = download_url(url, overwrite=True, dir = dir)
 
         with open(fname, 'r') as fp:
             self.lut = yaml.load(fp)
